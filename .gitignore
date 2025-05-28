@@ -4,6 +4,7 @@ pyopus/*.so
 pyopus/*.dll
 build/*
 libs/*
+libs/
 
 
 __pycache__/
