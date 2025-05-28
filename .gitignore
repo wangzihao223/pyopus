@@ -1,10 +1,10 @@
 # Python bytecode
 pyopus/*.c
 
-*.c
+
 __pycache__/
-*.py[cod]
-*$py.class
+
+
 
 # Cython generated C files (optional, if you don't want to track generated C code)
 *.cpp
