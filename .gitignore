@@ -1,0 +1,32 @@
+# Python bytecode
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Cython generated C files (optional, if you don't want to track generated C code)
+*.c
+*.cpp
+
+# Build directories
+build/
+dist/
+*.egg-info/
+.eggs/
+
+# Compiled extension modules
+*.so
+*.pyd
+*.dll
+
+.vscode/
+.idea/
+
+*.log
+*.tmp
+
+*.o
+*.obj
+
+libs/*.so
+libs/*.dll
+libs/*.dylib
