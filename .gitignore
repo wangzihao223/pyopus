@@ -1,5 +1,9 @@
 # Python bytecode
 pyopus/*.c
+pyopus/*.so
+pyopus/*.dll
+
+
 
 
 __pycache__/
