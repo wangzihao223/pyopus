@@ -1,11 +1,10 @@
 from setuptools import setup, Extension
 from Cython.Build import cythonize
 
-
 ext_modules = [
     Extension(
         "pyopus.opus_wrapper",
-        sources=["pyopus/opus_wrapper.pyx"],
+        sources=["pyopus/opus_wrapper.pyx",],
         libraries=["opus"],
         include_dirs=["./include/"],
         library_dirs=["./libs"],       

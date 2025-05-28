@@ -1,0 +1,2 @@
+recursive-include pyopus *.pyx
+recursive-include include *.h
