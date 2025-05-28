@@ -1,10 +1,10 @@
-# Python bytecode
+libs/
 pyopus/*.c
 pyopus/*.so
 pyopus/*.dll
 build/*
 libs/*
-libs/
+
 
 
 __pycache__/
