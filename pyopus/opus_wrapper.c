@@ -18881,6 +18881,7 @@ static PyObject *__pyx_f_6pyopus_12opus_wrapper_free_encoder(PyObject *__pyx_v_e
   __Pyx_RefNannyDeclarations
   int __pyx_t_1;
   void *__pyx_t_2;
+  int __pyx_t_3;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
@@ -18892,7 +18893,7 @@ static PyObject *__pyx_f_6pyopus_12opus_wrapper_free_encoder(PyObject *__pyx_v_e
  * cpdef free_encoder(encoder):
  *     PyCapsule_SetDestructor(encoder, NULL)             # <<<<<<<<<<<<<<
  *     cdef void* ptr = PyCapsule_GetPointer(encoder, "encoder")
- *     opus_encoder_destroy(<OpusEncoder*> ptr)
+ *     if ptr:
  */
   __pyx_t_1 = PyCapsule_SetDestructor(__pyx_v_encoder, NULL); if (unlikely(__pyx_t_1 == ((int)-1))) __PYX_ERR(1, 81, __pyx_L1_error)
 
@@ -18900,8 +18901,8 @@ static PyObject *__pyx_f_6pyopus_12opus_wrapper_free_encoder(PyObject *__pyx_v_e
  * cpdef free_encoder(encoder):
  *     PyCapsule_SetDestructor(encoder, NULL)
  *     cdef void* ptr = PyCapsule_GetPointer(encoder, "encoder")             # <<<<<<<<<<<<<<
- *     opus_encoder_destroy(<OpusEncoder*> ptr)
- *     del encoder
+ *     if ptr:
+ *         opus_encoder_destroy(<OpusEncoder*> ptr)
  */
   __pyx_t_2 = PyCapsule_GetPointer(__pyx_v_encoder, ((char const *)"encoder")); if (unlikely(__pyx_t_2 == ((void *)NULL) && PyErr_Occurred())) __PYX_ERR(1, 82, __pyx_L1_error)
   __pyx_v_ptr = __pyx_t_2;
@@ -18909,20 +18910,65 @@ static PyObject *__pyx_f_6pyopus_12opus_wrapper_free_encoder(PyObject *__pyx_v_e
   /* "pyopus/opus_wrapper.pyx":83
  *     PyCapsule_SetDestructor(encoder, NULL)
  *     cdef void* ptr = PyCapsule_GetPointer(encoder, "encoder")
- *     opus_encoder_destroy(<OpusEncoder*> ptr)             # <<<<<<<<<<<<<<
- *     del encoder
- * 
+ *     if ptr:             # <<<<<<<<<<<<<<
+ *         opus_encoder_destroy(<OpusEncoder*> ptr)
+ *         del encoder
  */
-  opus_encoder_destroy(((OpusEncoder *)__pyx_v_ptr));
+  __pyx_t_3 = (__pyx_v_ptr != 0);
+  if (__pyx_t_3) {
 
-  /* "pyopus/opus_wrapper.pyx":84
+    /* "pyopus/opus_wrapper.pyx":84
  *     cdef void* ptr = PyCapsule_GetPointer(encoder, "encoder")
- *     opus_encoder_destroy(<OpusEncoder*> ptr)
- *     del encoder             # <<<<<<<<<<<<<<
+ *     if ptr:
+ *         opus_encoder_destroy(<OpusEncoder*> ptr)             # <<<<<<<<<<<<<<
+ *         del encoder
+ *         return True
+ */
+    opus_encoder_destroy(((OpusEncoder *)__pyx_v_ptr));
+
+    /* "pyopus/opus_wrapper.pyx":85
+ *     if ptr:
+ *         opus_encoder_destroy(<OpusEncoder*> ptr)
+ *         del encoder             # <<<<<<<<<<<<<<
+ *         return True
+ *     else:
+ */
+    __Pyx_DECREF(__pyx_v_encoder); __pyx_v_encoder = 0;
+
+    /* "pyopus/opus_wrapper.pyx":86
+ *         opus_encoder_destroy(<OpusEncoder*> ptr)
+ *         del encoder
+ *         return True             # <<<<<<<<<<<<<<
+ *     else:
+ *         return False
+ */
+    __Pyx_XDECREF(__pyx_r);
+    __Pyx_INCREF(Py_True);
+    __pyx_r = Py_True;
+    goto __pyx_L0;
+
+    /* "pyopus/opus_wrapper.pyx":83
+ *     PyCapsule_SetDestructor(encoder, NULL)
+ *     cdef void* ptr = PyCapsule_GetPointer(encoder, "encoder")
+ *     if ptr:             # <<<<<<<<<<<<<<
+ *         opus_encoder_destroy(<OpusEncoder*> ptr)
+ *         del encoder
+ */
+  }
+
+  /* "pyopus/opus_wrapper.pyx":88
+ *         return True
+ *     else:
+ *         return False             # <<<<<<<<<<<<<<
  * 
  * cpdef free_decoder(decoder):
  */
-  __Pyx_DECREF(__pyx_v_encoder); __pyx_v_encoder = 0;
+  /*else*/ {
+    __Pyx_XDECREF(__pyx_r);
+    __Pyx_INCREF(Py_False);
+    __pyx_r = Py_False;
+    goto __pyx_L0;
+  }
 
   /* "pyopus/opus_wrapper.pyx":80
  *     return -1
@@ -18933,8 +18979,6 @@ static PyObject *__pyx_f_6pyopus_12opus_wrapper_free_encoder(PyObject *__pyx_v_e
  */
 
   /* function exit code */
-  __pyx_r = Py_None; __Pyx_INCREF(Py_None);
-  goto __pyx_L0;
   __pyx_L1_error:;
   __Pyx_AddTraceback("pyopus.opus_wrapper.free_encoder", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = 0;
@@ -19067,8 +19111,8 @@ static PyObject *__pyx_pf_6pyopus_12opus_wrapper_8free_encoder(CYTHON_UNUSED PyO
   return __pyx_r;
 }
 
-/* "pyopus/opus_wrapper.pyx":86
- *     del encoder
+/* "pyopus/opus_wrapper.pyx":90
+ *         return False
  * 
  * cpdef free_decoder(decoder):             # <<<<<<<<<<<<<<
  *     PyCapsule_SetDestructor(decoder, NULL)
@@ -19088,48 +19132,96 @@ static PyObject *__pyx_f_6pyopus_12opus_wrapper_free_decoder(PyObject *__pyx_v_d
   __Pyx_RefNannyDeclarations
   int __pyx_t_1;
   void *__pyx_t_2;
+  int __pyx_t_3;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("free_decoder", 0);
   __Pyx_INCREF(__pyx_v_decoder);
 
-  /* "pyopus/opus_wrapper.pyx":87
+  /* "pyopus/opus_wrapper.pyx":91
  * 
  * cpdef free_decoder(decoder):
  *     PyCapsule_SetDestructor(decoder, NULL)             # <<<<<<<<<<<<<<
  *     cdef void* ptr = PyCapsule_GetPointer(decoder, "decoder")
- *     opus_decoder_destroy(<OpusDecoder*> ptr)
+ *     if ptr:
  */
-  __pyx_t_1 = PyCapsule_SetDestructor(__pyx_v_decoder, NULL); if (unlikely(__pyx_t_1 == ((int)-1))) __PYX_ERR(1, 87, __pyx_L1_error)
+  __pyx_t_1 = PyCapsule_SetDestructor(__pyx_v_decoder, NULL); if (unlikely(__pyx_t_1 == ((int)-1))) __PYX_ERR(1, 91, __pyx_L1_error)
 
-  /* "pyopus/opus_wrapper.pyx":88
+  /* "pyopus/opus_wrapper.pyx":92
  * cpdef free_decoder(decoder):
  *     PyCapsule_SetDestructor(decoder, NULL)
  *     cdef void* ptr = PyCapsule_GetPointer(decoder, "decoder")             # <<<<<<<<<<<<<<
- *     opus_decoder_destroy(<OpusDecoder*> ptr)
- *     del decoder
+ *     if ptr:
+ *         opus_decoder_destroy(<OpusDecoder*> ptr)
  */
-  __pyx_t_2 = PyCapsule_GetPointer(__pyx_v_decoder, ((char const *)"decoder")); if (unlikely(__pyx_t_2 == ((void *)NULL) && PyErr_Occurred())) __PYX_ERR(1, 88, __pyx_L1_error)
+  __pyx_t_2 = PyCapsule_GetPointer(__pyx_v_decoder, ((char const *)"decoder")); if (unlikely(__pyx_t_2 == ((void *)NULL) && PyErr_Occurred())) __PYX_ERR(1, 92, __pyx_L1_error)
   __pyx_v_ptr = __pyx_t_2;
 
-  /* "pyopus/opus_wrapper.pyx":89
+  /* "pyopus/opus_wrapper.pyx":93
  *     PyCapsule_SetDestructor(decoder, NULL)
  *     cdef void* ptr = PyCapsule_GetPointer(decoder, "decoder")
- *     opus_decoder_destroy(<OpusDecoder*> ptr)             # <<<<<<<<<<<<<<
- *     del decoder
+ *     if ptr:             # <<<<<<<<<<<<<<
+ *         opus_decoder_destroy(<OpusDecoder*> ptr)
+ *         del decoder
  */
-  opus_decoder_destroy(((OpusDecoder *)__pyx_v_ptr));
+  __pyx_t_3 = (__pyx_v_ptr != 0);
+  if (__pyx_t_3) {
+
+    /* "pyopus/opus_wrapper.pyx":94
+ *     cdef void* ptr = PyCapsule_GetPointer(decoder, "decoder")
+ *     if ptr:
+ *         opus_decoder_destroy(<OpusDecoder*> ptr)             # <<<<<<<<<<<<<<
+ *         del decoder
+ *         return True
+ */
+    opus_decoder_destroy(((OpusDecoder *)__pyx_v_ptr));
+
+    /* "pyopus/opus_wrapper.pyx":95
+ *     if ptr:
+ *         opus_decoder_destroy(<OpusDecoder*> ptr)
+ *         del decoder             # <<<<<<<<<<<<<<
+ *         return True
+ *     else:
+ */
+    __Pyx_DECREF(__pyx_v_decoder); __pyx_v_decoder = 0;
+
+    /* "pyopus/opus_wrapper.pyx":96
+ *         opus_decoder_destroy(<OpusDecoder*> ptr)
+ *         del decoder
+ *         return True             # <<<<<<<<<<<<<<
+ *     else:
+ *         return False
+ */
+    __Pyx_XDECREF(__pyx_r);
+    __Pyx_INCREF(Py_True);
+    __pyx_r = Py_True;
+    goto __pyx_L0;
+
+    /* "pyopus/opus_wrapper.pyx":93
+ *     PyCapsule_SetDestructor(decoder, NULL)
+ *     cdef void* ptr = PyCapsule_GetPointer(decoder, "decoder")
+ *     if ptr:             # <<<<<<<<<<<<<<
+ *         opus_decoder_destroy(<OpusDecoder*> ptr)
+ *         del decoder
+ */
+  }
+
+  /* "pyopus/opus_wrapper.pyx":98
+ *         return True
+ *     else:
+ *         return False             # <<<<<<<<<<<<<<
+ * 
+ */
+  /*else*/ {
+    __Pyx_XDECREF(__pyx_r);
+    __Pyx_INCREF(Py_False);
+    __pyx_r = Py_False;
+    goto __pyx_L0;
+  }
 
   /* "pyopus/opus_wrapper.pyx":90
- *     cdef void* ptr = PyCapsule_GetPointer(decoder, "decoder")
- *     opus_decoder_destroy(<OpusDecoder*> ptr)
- *     del decoder             # <<<<<<<<<<<<<<
- */
-  __Pyx_DECREF(__pyx_v_decoder); __pyx_v_decoder = 0;
-
-  /* "pyopus/opus_wrapper.pyx":86
- *     del encoder
+ *         return False
  * 
  * cpdef free_decoder(decoder):             # <<<<<<<<<<<<<<
  *     PyCapsule_SetDestructor(decoder, NULL)
@@ -19137,8 +19229,6 @@ static PyObject *__pyx_f_6pyopus_12opus_wrapper_free_decoder(PyObject *__pyx_v_d
  */
 
   /* function exit code */
-  __pyx_r = Py_None; __Pyx_INCREF(Py_None);
-  goto __pyx_L0;
   __pyx_L1_error:;
   __Pyx_AddTraceback("pyopus.opus_wrapper.free_decoder", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = 0;
@@ -19202,12 +19292,12 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
           (void)__Pyx_Arg_NewRef_FASTCALL(values[0]);
           kw_args--;
         }
-        else if (unlikely(PyErr_Occurred())) __PYX_ERR(1, 86, __pyx_L3_error)
+        else if (unlikely(PyErr_Occurred())) __PYX_ERR(1, 90, __pyx_L3_error)
         else goto __pyx_L5_argtuple_error;
       }
       if (unlikely(kw_args > 0)) {
         const Py_ssize_t kwd_pos_args = __pyx_nargs;
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_kwvalues, __pyx_pyargnames, 0, values + 0, kwd_pos_args, "free_decoder") < 0)) __PYX_ERR(1, 86, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_kwvalues, __pyx_pyargnames, 0, values + 0, kwd_pos_args, "free_decoder") < 0)) __PYX_ERR(1, 90, __pyx_L3_error)
       }
     } else if (unlikely(__pyx_nargs != 1)) {
       goto __pyx_L5_argtuple_error;
@@ -19218,7 +19308,7 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
   }
   goto __pyx_L6_skip;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("free_decoder", 1, 1, 1, __pyx_nargs); __PYX_ERR(1, 86, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("free_decoder", 1, 1, 1, __pyx_nargs); __PYX_ERR(1, 90, __pyx_L3_error)
   __pyx_L6_skip:;
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L3_error:;
@@ -19254,7 +19344,7 @@ static PyObject *__pyx_pf_6pyopus_12opus_wrapper_10free_decoder(CYTHON_UNUSED Py
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("free_decoder", 1);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __pyx_f_6pyopus_12opus_wrapper_free_decoder(__pyx_v_decoder, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 86, __pyx_L1_error)
+  __pyx_t_1 = __pyx_f_6pyopus_12opus_wrapper_free_decoder(__pyx_v_decoder, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 90, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -20610,17 +20700,17 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   __Pyx_GIVEREF(__pyx_tuple__28);
   __pyx_codeobj__29 = (PyObject*)__Pyx_PyCode_New(1, 0, 0, 1, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__28, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_pyopus_opus_wrapper_pyx, __pyx_n_s_free_encoder, 80, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__29)) __PYX_ERR(1, 80, __pyx_L1_error)
 
-  /* "pyopus/opus_wrapper.pyx":86
- *     del encoder
+  /* "pyopus/opus_wrapper.pyx":90
+ *         return False
  * 
  * cpdef free_decoder(decoder):             # <<<<<<<<<<<<<<
  *     PyCapsule_SetDestructor(decoder, NULL)
  *     cdef void* ptr = PyCapsule_GetPointer(decoder, "decoder")
  */
-  __pyx_tuple__30 = PyTuple_Pack(1, __pyx_n_s_decoder); if (unlikely(!__pyx_tuple__30)) __PYX_ERR(1, 86, __pyx_L1_error)
+  __pyx_tuple__30 = PyTuple_Pack(1, __pyx_n_s_decoder); if (unlikely(!__pyx_tuple__30)) __PYX_ERR(1, 90, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__30);
   __Pyx_GIVEREF(__pyx_tuple__30);
-  __pyx_codeobj__31 = (PyObject*)__Pyx_PyCode_New(1, 0, 0, 1, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__30, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_pyopus_opus_wrapper_pyx, __pyx_n_s_free_decoder, 86, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__31)) __PYX_ERR(1, 86, __pyx_L1_error)
+  __pyx_codeobj__31 = (PyObject*)__Pyx_PyCode_New(1, 0, 0, 1, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__30, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_pyopus_opus_wrapper_pyx, __pyx_n_s_free_decoder, 90, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__31)) __PYX_ERR(1, 90, __pyx_L1_error)
   __Pyx_RefNannyFinishContext();
   return 0;
   __pyx_L1_error:;
@@ -21742,16 +21832,16 @@ if (!__Pyx_RefNanny) {
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_free_encoder, __pyx_t_7) < 0) __PYX_ERR(1, 80, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
 
-  /* "pyopus/opus_wrapper.pyx":86
- *     del encoder
+  /* "pyopus/opus_wrapper.pyx":90
+ *         return False
  * 
  * cpdef free_decoder(decoder):             # <<<<<<<<<<<<<<
  *     PyCapsule_SetDestructor(decoder, NULL)
  *     cdef void* ptr = PyCapsule_GetPointer(decoder, "decoder")
  */
-  __pyx_t_7 = __Pyx_CyFunction_New(&__pyx_mdef_6pyopus_12opus_wrapper_11free_decoder, 0, __pyx_n_s_free_decoder, NULL, __pyx_n_s_pyopus_opus_wrapper, __pyx_d, ((PyObject *)__pyx_codeobj__31)); if (unlikely(!__pyx_t_7)) __PYX_ERR(1, 86, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_CyFunction_New(&__pyx_mdef_6pyopus_12opus_wrapper_11free_decoder, 0, __pyx_n_s_free_decoder, NULL, __pyx_n_s_pyopus_opus_wrapper, __pyx_d, ((PyObject *)__pyx_codeobj__31)); if (unlikely(!__pyx_t_7)) __PYX_ERR(1, 90, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_free_decoder, __pyx_t_7) < 0) __PYX_ERR(1, 86, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_free_decoder, __pyx_t_7) < 0) __PYX_ERR(1, 90, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
 
   /* "pyopus/opus_wrapper.pyx":1
