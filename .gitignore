@@ -2,7 +2,7 @@
 pyopus/*.c
 pyopus/*.so
 pyopus/*.dll
-
+build/*
 
 
 
