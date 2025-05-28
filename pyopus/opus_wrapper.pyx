@@ -80,11 +80,20 @@ cpdef decode(decoder, const unsigned char[:]data, length, frame_size, channels, 
 cpdef free_encoder(encoder):
     PyCapsule_SetDestructor(encoder, NULL) 
     cdef void* ptr = PyCapsule_GetPointer(encoder, "encoder")
-    opus_encoder_destroy(<OpusEncoder*> ptr)
-    del encoder
+    if ptr:
+        opus_encoder_destroy(<OpusEncoder*> ptr)
+        del encoder
+        return True
+    else:
+        return False
 
 cpdef free_decoder(decoder):
     PyCapsule_SetDestructor(decoder, NULL)
     cdef void* ptr = PyCapsule_GetPointer(decoder, "decoder")
-    opus_decoder_destroy(<OpusDecoder*> ptr)
-    del decoder
+    if ptr:
+        opus_decoder_destroy(<OpusDecoder*> ptr)
+        del decoder
+        return True
+    else:
+        return False
+
