@@ -7,7 +7,7 @@ ext_modules = [
         sources=["pyopus/opus_wrapper.pyx",],
         libraries=["opus"],
         include_dirs=["./include/"],
-        library_dirs=["./libs"],    
+        library_dirs=["./pyopus/libs"],    
         language="c",
     )
 ]

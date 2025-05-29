@@ -1,2 +1,4 @@
 recursive-include pyopus *
 recursive-include include *.h
+
+exculde pyopus/*.c
