@@ -1,4 +1,3 @@
-from cython.view cimport array as cvarray
 from cpython.pycapsule cimport PyCapsule_New, PyCapsule_GetPointer, PyCapsule_SetDestructor
 from libc.stdint cimport uint8_t, int16_t
 
