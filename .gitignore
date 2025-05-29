@@ -1,4 +1,3 @@
-libs/
 pyopus/*.c
 pyopus/*.so
 pyopus/*.dll

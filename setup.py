@@ -7,7 +7,7 @@ ext_modules = [
         sources=["pyopus/opus_wrapper.pyx",],
         libraries=["opus"],
         include_dirs=["./include/"],
-        library_dirs=["./libs"],       
+        library_dirs=["./libs"],    
         language="c",
     )
 ]
@@ -18,5 +18,7 @@ setup(
     version="0.1",
     packages=["pyopus"],
     ext_modules=cythonize(ext_modules),
+    package_data={"pyopus":["libs/*dll"]},
+    include_package_data=True,
     zip_safe=False,
 )
