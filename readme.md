@@ -33,7 +33,9 @@
 
 2. setuptools
 
-3. opus 
+3. build
+
+4. opus 
    
     编译opus 
    

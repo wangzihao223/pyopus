@@ -1,14 +1,13 @@
 from cython.view cimport array as cvarray
-import numpy as np
 from cpython.pycapsule cimport PyCapsule_New, PyCapsule_GetPointer, PyCapsule_SetDestructor
-
+from libc.stdint cimport uint8_t, int16_t
 
 cdef extern from "stdlib.h":
     void* malloc(size_t size)
     void free(void* ptr)
 cdef extern from "opus.h":
     ctypedef int opus_int32
-    ctypedef short opus_int16
+    ctypedef int16_t opus_int16
     ctypedef struct OpusEncoder:
         pass
     ctypedef struct OpusDecoder:
@@ -48,7 +47,8 @@ cpdef encode(encoder_ptr, const opus_int16[:]pcm, frame_size, max_data_bytes):
     cdef OpusEncoder* st
     cdef void* ptr = PyCapsule_GetPointer(encoder_ptr, "encoder")
     st = <OpusEncoder*>ptr
-    cdef unsigned char[:] cyarr = np.zeros((max_data_bytes,), dtype=np.uint8)
+    cdef bytearray buf = bytearray(max_data_bytes)
+    cdef uint8_t[:] cyarr = buf
     cdef opus_int32 length
     length = opus_encode(st, &pcm[0], frame_size, &cyarr[0], <opus_int32>max_data_bytes)
     if length > 0:
@@ -71,7 +71,8 @@ cpdef decode(decoder, const unsigned char[:]data, length, frame_size, channels, 
     st = <OpusDecoder*>ptr
     cdef int error
     cdef int n
-    cdef short[:] pcm = np.zeros((frame_size*channels,), dtype=np.int16)
+    cdef bytearray buf = bytearray(frame_size*channels*2)
+    cdef int16_t[:]  pcm = buf
     n = opus_decode(st, &data[0], length, &pcm[0], frame_size, decode_fec)
     if n:
         return pcm[:n]
